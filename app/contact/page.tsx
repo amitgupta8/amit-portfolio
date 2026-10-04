@@ -22,7 +22,8 @@ const NAME_REGEX = /^[\p{L}][\p{L}\s.'-]*$/u;
 const EMAIL_REGEX =
   /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
-const normalizeSpaces = (value: string) => value.trim().replace(/\s+/g, " ");
+const normalizeSpaces = (value: string) =>
+  value.trim().replace(/\s+/g, " ");
 
 function validateForm(form: ContactForm): FormErrors {
   const errors: FormErrors = {};
@@ -31,7 +32,6 @@ function validateForm(form: ContactForm): FormErrors {
   const email = form.email.trim().toLowerCase();
   const message = form.message.trim();
 
-  // NAME
   if (!name) {
     errors.name = "Name is required.";
   } else if (name.length < 2) {
@@ -43,7 +43,6 @@ function validateForm(form: ContactForm): FormErrors {
       "Please enter a valid name. Numbers and special characters are not allowed.";
   }
 
-  // EMAIL
   if (!email) {
     errors.email = "Email is required.";
   } else if (email.length > 254) {
@@ -52,7 +51,6 @@ function validateForm(form: ContactForm): FormErrors {
     errors.email = "Please enter a valid email address.";
   }
 
-  // MESSAGE
   if (!message) {
     errors.message = "Message is required.";
   } else if (message.length < 10) {
@@ -72,9 +70,7 @@ export default function ContactPage() {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-
   const [touched, setTouched] = useState<Record<string, boolean>>({});
-
   const [busy, setBusy] = useState(false);
 
   function handleChange(
@@ -133,16 +129,15 @@ export default function ContactPage() {
     });
 
     if (Object.keys(validationErrors).length > 0) {
-  const firstError =
-    validationErrors.name ||
-    validationErrors.email ||
-    validationErrors.message ||
-    "Please check your information.";
+      const firstError =
+        validationErrors.name ||
+        validationErrors.email ||
+        validationErrors.message ||
+        "Please check your information.";
 
-  toast.error(firstError);
-
-  return;
-}
+      toast.error(firstError);
+      return;
+    }
 
     setBusy(true);
 
@@ -210,16 +205,12 @@ export default function ContactPage() {
   }
 
   const nameError = touched.name && errors.name;
-
   const emailError = touched.email && errors.email;
-
   const messageError = touched.message && errors.message;
 
   return (
     <main className="min-h-screen pt-28 pb-20">
       <div className="container-pro">
-        {/* HEADER */}
-
         <div className="mb-10">
           <Link
             href="/"
@@ -243,16 +234,12 @@ export default function ContactPage() {
           </p>
         </div>
 
-        {/* FORM CARD */}
-
         <div className="mx-auto max-w-3xl">
           <form onSubmit={handleSubmit} noValidate className="contact-form">
             <div className="form-label">
               PROJECT BRIEF
               <span>01</span>
             </div>
-
-            {/* NAME */}
 
             <label>
               <div className="flex items-center justify-between">
@@ -281,10 +268,10 @@ export default function ContactPage() {
                 }
               />
 
-              {nameError && <span className="field-error">{nameError}</span>}
+              {nameError && (
+                <span className="field-error">{nameError}</span>
+              )}
             </label>
-
-            {/* EMAIL */}
 
             <label>
               <div className="flex items-center justify-between">
@@ -314,10 +301,10 @@ export default function ContactPage() {
                 }
               />
 
-              {emailError && <span className="field-error">{emailError}</span>}
+              {emailError && (
+                <span className="field-error">{emailError}</span>
+              )}
             </label>
-
-            {/* MESSAGE */}
 
             <label>
               <div className="flex items-center justify-between">
@@ -341,7 +328,9 @@ export default function ContactPage() {
                 className={
                   messageError
                     ? "input-error"
-                    : touched.message && form.message.trim() && !errors.message
+                    : touched.message &&
+                        form.message.trim() &&
+                        !errors.message
                       ? "input-success"
                       : ""
                 }
@@ -352,8 +341,6 @@ export default function ContactPage() {
               )}
             </label>
 
-            {/* HONEYPOT */}
-
             <input
               type="text"
               name="website"
@@ -362,15 +349,12 @@ export default function ContactPage() {
               className="hidden"
             />
 
-            {/* SUBMIT */}
-
             <button
               type="submit"
               disabled={busy}
               className="send-btn disabled:cursor-not-allowed disabled:opacity-60"
             >
               {busy ? "Sending..." : "Send inquiry"}
-
               <Send size={17} />
             </button>
           </form>

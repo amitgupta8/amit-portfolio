@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ArrowUpRight, Mail, MapPin, Send, CheckCircle2 } from "lucide-react";
+import {
+  ArrowUpRight,
+  Mail,
+  MapPin,
+  Send,
+  CheckCircle2,
+} from "lucide-react";
 import toast from "react-hot-toast";
 import { site } from "@/data/site";
 
@@ -33,10 +39,7 @@ function validateForm(form: ContactForm): FormErrors {
   const email = form.email.trim().toLowerCase();
   const message = form.message.trim();
 
-  // =====================================================
   // NAME VALIDATION
-  // =====================================================
-
   if (!name) {
     errors.name = "Name is required.";
   } else if (name.length < 2) {
@@ -48,10 +51,7 @@ function validateForm(form: ContactForm): FormErrors {
       "Please enter a valid name. Numbers and special characters are not allowed.";
   }
 
-  // =====================================================
   // EMAIL VALIDATION
-  // =====================================================
-
   if (!email) {
     errors.email = "Email is required.";
   } else if (email.length > 254) {
@@ -60,10 +60,7 @@ function validateForm(form: ContactForm): FormErrors {
     errors.email = "Please enter a valid email address.";
   }
 
-  // =====================================================
   // MESSAGE VALIDATION
-  // =====================================================
-
   if (!message) {
     errors.message = "Message is required.";
   } else if (message.length < 10) {
@@ -83,15 +80,10 @@ export function Contact() {
   });
 
   const [errors, setErrors] = useState<FormErrors>({});
-
   const [touched, setTouched] = useState<Record<string, boolean>>({});
-
   const [busy, setBusy] = useState(false);
 
-  // =====================================================
   // INPUT CHANGE
-  // =====================================================
-
   function handleChange(
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
@@ -104,7 +96,6 @@ export function Contact() {
 
     setForm(updatedForm);
 
-    // Validate after field has been touched
     if (touched[name]) {
       const validationErrors = validateForm(updatedForm);
 
@@ -115,10 +106,7 @@ export function Contact() {
     }
   }
 
-  // =====================================================
   // INPUT BLUR
-  // =====================================================
-
   function handleBlur(
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) {
@@ -137,16 +125,12 @@ export function Contact() {
     }));
   }
 
-  // =====================================================
   // SUBMIT
-  // =====================================================
-
   async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     if (busy) return;
 
-    // Validate everything
     const validationErrors = validateForm(form);
 
     setErrors(validationErrors);
@@ -157,7 +141,6 @@ export function Contact() {
       message: true,
     });
 
-    // Stop if validation failed
     if (Object.keys(validationErrors).length > 0) {
       const firstError =
         validationErrors.name ||
@@ -166,50 +149,34 @@ export function Contact() {
         "Please check your information.";
 
       toast.error(firstError);
-
       return;
     }
+
     setBusy(true);
 
     const loadingToast = toast.loading("Sending your message...");
 
     try {
-      // =================================================
-      // API URL
-      // =================================================
-
       const apiUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
 
       if (!apiUrl) {
         throw new Error("API URL is not configured.");
       }
 
-      // =================================================
-      // API REQUEST
-      // =================================================
-
       const response = await fetch(`${apiUrl}/api/contact`, {
         method: "POST",
-
         headers: {
           "Content-Type": "application/json",
         },
-
         body: JSON.stringify({
           name: normalizeSpaces(form.name),
-
           email: form.email.trim().toLowerCase(),
-
           message: form.message.trim(),
 
           // Honeypot
           website: "",
         }),
       });
-
-      // =================================================
-      // RESPONSE
-      // =================================================
 
       let data: {
         success?: boolean;
@@ -222,20 +189,14 @@ export function Contact() {
         data = {};
       }
 
-      // Backend error
       if (!response.ok) {
         throw new Error(data.message || "Failed to send message.");
       }
-
-      // =================================================
-      // SUCCESS
-      // =================================================
 
       toast.success(data.message || "Message sent successfully.", {
         id: loadingToast,
       });
 
-      // Clear form
       setForm({
         name: "",
         email: "",
@@ -248,7 +209,9 @@ export function Contact() {
       console.error("Contact form error:", error);
 
       toast.error(
-        error instanceof Error ? error.message : "Unable to send message.",
+        error instanceof Error
+          ? error.message
+          : "Unable to send message.",
         {
           id: loadingToast,
         },
@@ -258,27 +221,18 @@ export function Contact() {
     }
   }
 
-  // =====================================================
-  // FIELD ERRORS
-  // =====================================================
-
   const nameError = touched.name && errors.name;
-
   const emailError = touched.email && errors.email;
-
   const messageError = touched.message && errors.message;
 
-  // =====================================================
-  // UI
-  // =====================================================
-
   return (
-    <section id="contact" className="section-space relative overflow-hidden">
+    <section
+      id="contact"
+      className="section-space relative overflow-hidden"
+    >
       <div className="container-pro">
         <div className="contact-shell">
-          {/* =================================================
-              LEFT SIDE
-          ================================================= */}
+          {/* LEFT SIDE */}
 
           <div className="contact-copy">
             <span className="eyebrow">
@@ -295,8 +249,8 @@ export function Contact() {
             </h2>
 
             <p className="mt-6 max-w-xl text-base leading-8 text-black/55 dark:text-white/55">
-              Tell me what you are working on. I&apos;ll bring a practical mix
-              of frontend craft, backend engineering and AI integration.
+              Tell me what you are working on. I&apos;ll bring a practical
+              mix of frontend craft, backend engineering and AI integration.
             </p>
 
             {/* CONTACT INFO */}
@@ -304,7 +258,10 @@ export function Contact() {
             <div className="mt-8 grid gap-3 sm:grid-cols-2">
               {/* EMAIL */}
 
-              <a className="contact-mini" href={`mailto:${site.email}`}>
+              <a
+                className="contact-mini"
+                href={`mailto:${site.email}`}
+              >
                 <Mail size={17} />
 
                 <span>
@@ -337,11 +294,13 @@ export function Contact() {
             </a>
           </div>
 
-          {/* =================================================
-              FORM
-          ================================================= */}
+          {/* FORM */}
 
-          <form onSubmit={submit} className="contact-form" noValidate>
+          <form
+            onSubmit={submit}
+            className="contact-form"
+            noValidate
+          >
             {/* FORM HEADER */}
 
             <div className="form-label">
@@ -349,17 +308,20 @@ export function Contact() {
               <span>01</span>
             </div>
 
-            {/* =================================================
-                NAME
-            ================================================= */}
+            {/* NAME */}
 
             <label>
               <div className="flex items-center justify-between">
                 <span>Name</span>
 
-                {touched.name && !errors.name && form.name.trim() && (
-                  <CheckCircle2 size={16} className="text-green-500" />
-                )}
+                {touched.name &&
+                  !errors.name &&
+                  form.name.trim() && (
+                    <CheckCircle2
+                      size={16}
+                      className="text-green-500"
+                    />
+                  )}
               </div>
 
               <input
@@ -371,34 +333,44 @@ export function Contact() {
                 autoComplete="name"
                 maxLength={60}
                 aria-invalid={!!nameError}
-                aria-describedby={nameError ? "name-error" : undefined}
+                aria-describedby={
+                  nameError ? "name-error" : undefined
+                }
                 className={
                   nameError
                     ? "input-error"
-                    : touched.name && form.name.trim() && !errors.name
+                    : touched.name &&
+                        form.name.trim() &&
+                        !errors.name
                       ? "input-success"
                       : ""
                 }
               />
 
               {nameError && (
-                <span id="name-error" className="field-error">
+                <span
+                  id="name-error"
+                  className="field-error"
+                >
                   {nameError}
                 </span>
               )}
             </label>
 
-            {/* =================================================
-                EMAIL
-            ================================================= */}
+            {/* EMAIL */}
 
             <label>
               <div className="flex items-center justify-between">
                 <span>Email</span>
 
-                {touched.email && !errors.email && form.email.trim() && (
-                  <CheckCircle2 size={16} className="text-green-500" />
-                )}
+                {touched.email &&
+                  !errors.email &&
+                  form.email.trim() && (
+                    <CheckCircle2
+                      size={16}
+                      className="text-green-500"
+                    />
+                  )}
               </div>
 
               <input
@@ -411,26 +383,31 @@ export function Contact() {
                 autoComplete="email"
                 maxLength={254}
                 aria-invalid={!!emailError}
-                aria-describedby={emailError ? "email-error" : undefined}
+                aria-describedby={
+                  emailError ? "email-error" : undefined
+                }
                 className={
                   emailError
                     ? "input-error"
-                    : touched.email && form.email.trim() && !errors.email
+                    : touched.email &&
+                        form.email.trim() &&
+                        !errors.email
                       ? "input-success"
                       : ""
                 }
               />
 
               {emailError && (
-                <span id="email-error" className="field-error">
+                <span
+                  id="email-error"
+                  className="field-error"
+                >
                   {emailError}
                 </span>
               )}
             </label>
 
-            {/* =================================================
-                MESSAGE
-            ================================================= */}
+            {/* MESSAGE */}
 
             <label>
               <div className="flex items-center justify-between">
@@ -451,26 +428,33 @@ export function Contact() {
                 minLength={10}
                 maxLength={1000}
                 aria-invalid={!!messageError}
-                aria-describedby={messageError ? "message-error" : undefined}
+                aria-describedby={
+                  messageError
+                    ? "message-error"
+                    : undefined
+                }
                 className={
                   messageError
                     ? "input-error"
-                    : touched.message && form.message.trim() && !errors.message
+                    : touched.message &&
+                        form.message.trim() &&
+                        !errors.message
                       ? "input-success"
                       : ""
                 }
               />
 
               {messageError && (
-                <span id="message-error" className="field-error">
+                <span
+                  id="message-error"
+                  className="field-error"
+                >
                   {messageError}
                 </span>
               )}
             </label>
 
-            {/* =================================================
-                HONEYPOT
-            ================================================= */}
+            {/* HONEYPOT */}
 
             <input
               type="text"
@@ -480,9 +464,7 @@ export function Contact() {
               className="hidden"
             />
 
-            {/* =================================================
-                SUBMIT
-            ================================================= */}
+            {/* SUBMIT */}
 
             <button
               disabled={busy}

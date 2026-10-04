@@ -34,7 +34,9 @@ body {
   overflow-x: hidden;
   background: var(--bg);
   color: var(--text);
+
   font-family: Arial, Helvetica, sans-serif;
+
   transition:
     background 0.25s ease,
     color 0.25s ease;
@@ -218,8 +220,7 @@ button:disabled {
 
   pointer-events: none;
 
-  animation:
-    orbFloat 9s ease-in-out infinite;
+  animation: orbFloat 9s ease-in-out infinite;
 }
 
 @keyframes orbFloat {
@@ -366,8 +367,7 @@ button:disabled {
   width: 220px;
   height: 220px;
 
-  border:
-    1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 
   border-radius:
     45% 55% 60% 40%;
@@ -382,6 +382,7 @@ button:disabled {
   content: "";
 
   position: absolute;
+
   inset: 12%;
 
   border:
@@ -396,13 +397,14 @@ button:disabled {
 
   font-size: 112px;
   font-weight: 900;
+
   letter-spacing: -0.1em;
 
   color: #fff;
 }
 
 /* =========================================================
-   PROFILE GRID
+   PROFILE PHOTO GRID
    ========================================================= */
 
 .profile-photo-grid {
@@ -521,7 +523,7 @@ button:disabled {
 }
 
 /* =========================================================
-   CONTACT SECTION
+   CONTACT
    ========================================================= */
 
 .contact-shell {
@@ -600,7 +602,6 @@ button:disabled {
 .contact-form input,
 .contact-form textarea {
   width: 100%;
-
   min-width: 0;
 
   border:
@@ -947,7 +948,6 @@ button:disabled {
 
 .chart-scroll {
   scrollbar-width: thin;
-
   overflow-x: auto;
 }
 
@@ -1031,7 +1031,7 @@ button:disabled {
 }
 
 /* =========================================================
-   CURSOR
+   CURSOR EFFECT
    ========================================================= */
 
 .cursor-glow,
@@ -1556,8 +1556,7 @@ button:not(:disabled):active {
     conic-gradient(
       from -90deg,
       #7c3aed var(--progress),
-      rgba(124, 58, 237, 0.12)
-        var(--progress)
+      rgba(124, 58, 237, 0.12) var(--progress)
     ) !important;
 
   -webkit-mask:
@@ -1636,6 +1635,58 @@ button:not(:disabled):active {
 .dark .back-top-inner {
   background:
     rgba(17, 18, 24, 0.96) !important;
+}
+
+/* =========================================================
+   FORM VALIDATION
+   ========================================================= */
+
+.field-error {
+  display: block;
+
+  margin-top: 7px;
+
+  font-size: 12px;
+  line-height: 1.5;
+  font-weight: 600;
+
+  color: #dc2626;
+}
+
+.input-error {
+  border-color: #dc2626 !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(220, 38, 38, 0.08) !important;
+}
+
+.input-success {
+  border-color: #22c55e !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(34, 197, 94, 0.07) !important;
+}
+
+.dark .field-error {
+  color: #f87171;
+}
+
+.dark .input-error {
+  border-color: #f87171 !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(248, 113, 113, 0.08) !important;
+}
+
+.dark .input-success {
+  border-color: #4ade80 !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(74, 222, 128, 0.07) !important;
 }
 
 /* =========================================================
@@ -1720,6 +1771,15 @@ button:not(:disabled):active {
     letter-spacing: -0.035em;
   }
 
+  .profile-photo {
+    height: 300px;
+    border-radius: 24px;
+  }
+
+  .profile-photo span {
+    font-size: 82px;
+  }
+
   .hero-orb {
     width: 260px;
     height: 260px;
@@ -1742,17 +1802,7 @@ button:not(:disabled):active {
 
   .surface:hover {
     transform: none;
-
     box-shadow: none;
-  }
-
-  .profile-photo {
-    height: 300px;
-    border-radius: 24px;
-  }
-
-  .profile-photo span {
-    font-size: 82px;
   }
 
   .contact-shell {
@@ -1850,20 +1900,19 @@ button:not(:disabled):active {
   }
 
   .chat-window {
-    bottom: 80px !important;
-
-    right: 12px !important;
+    bottom: 78px !important;
+    right: 10px !important;
 
     width:
-      calc(100vw - 24px) !important;
+      calc(100vw - 20px) !important;
 
     height:
       min(
         610px,
-        calc(100dvh - 100px)
+        calc(100dvh - 92px)
       ) !important;
 
-    border-radius: 24px !important;
+    border-radius: 22px !important;
   }
 }
 
@@ -1959,19 +2008,18 @@ button:not(:disabled):active {
   }
 
   .chat-window {
-    bottom: 78px !important;
-    right: 10px !important;
+    bottom: 76px !important;
+    right: 8px !important;
 
     width:
-      calc(100vw - 20px) !important;
+      calc(100vw - 16px) !important;
 
     height:
-      min(
-        610px,
-        calc(100dvh - 92px)
-      ) !important;
+      calc(100dvh - 88px) !important;
 
-    border-radius: 22px !important;
+    max-height: 610px !important;
+
+    border-radius: 20px !important;
   }
 }
 
@@ -2097,21 +2145,6 @@ button:not(:disabled):active {
     width: 52px !important;
     height: 52px !important;
   }
-
-  .chat-window {
-    bottom: 76px !important;
-    right: 8px !important;
-
-    width:
-      calc(100vw - 16px) !important;
-
-    height:
-      calc(100dvh - 88px) !important;
-
-    max-height: 610px !important;
-
-    border-radius: 20px !important;
-  }
 }
 
 /* =========================================================
@@ -2236,45 +2269,4 @@ button:not(:disabled):active {
   .chart-floating-button:hover svg {
     transform: none !important;
   }
-}
-
-/* =========================================================
-   FORM VALIDATION
-   ========================================================= */
-
-.field-error {
-  display: block;
-  margin-top: 7px;
-  font-size: 12px;
-  line-height: 1.5;
-  font-weight: 600;
-  color: #dc2626;
-}
-
-.input-error {
-  border-color: #dc2626 !important;
-  box-shadow:
-    0 0 0 3px rgba(220, 38, 38, 0.08) !important;
-}
-
-.input-success {
-  border-color: #22c55e !important;
-  box-shadow:
-    0 0 0 3px rgba(34, 197, 94, 0.07) !important;
-}
-
-.dark .field-error {
-  color: #f87171;
-}
-
-.dark .input-error {
-  border-color: #f87171 !important;
-  box-shadow:
-    0 0 0 3px rgba(248, 113, 113, 0.08) !important;
-}
-
-.dark .input-success {
-  border-color: #4ade80 !important;
-  box-shadow:
-    0 0 0 3px rgba(74, 222, 128, 0.07) !important;
 }
