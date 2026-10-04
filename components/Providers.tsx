@@ -1,0 +1,3 @@
+"use client";
+import {useEffect} from 'react';import {Toaster} from 'sonner';
+export function Providers({children}:{children:React.ReactNode}){useEffect(()=>{const s=localStorage.getItem('amit-theme');const d=s==='dark'||(!s&&window.matchMedia('(prefers-color-scheme: dark)').matches);document.documentElement.classList.toggle('dark',d)},[]);return <><Toaster position='top-right' richColors/>{children}</>}
